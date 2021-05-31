@@ -1,7 +1,7 @@
 [package]
-name = "catsay"
+name = "catsay-bpv"
 version = "0.1.0"
-authors = ["unknow"]
+authors = ["Bernatsky Pavel"]
 edition = "2018"
 description = "catsay - tool that makes a cat speak your message"
 repository = "https://github.com/BernatskyPavel/catsay"
