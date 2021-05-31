@@ -5,6 +5,7 @@ authors = ["unknow"]
 edition = "2018"
 description = "catsay - tool that makes a cat speak your message"
 repository = "https://github.com/BernatskyPavel/catsay"
+license = "MIT OR Apache-2.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
