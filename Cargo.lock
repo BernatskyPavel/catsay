@@ -104,7 +104,7 @@ checksum = "14c189c53d098945499cdfa7ecc63567cf3886b3332b312a5b4585d8d3a6a610"
 
 [[package]]
 name = "catsay-bpv"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "assert_cmd",
  "colored",
@@ -112,6 +112,7 @@ dependencies = [
  "failure",
  "predicates",
  "structopt",
+ "terminal_size",
 ]
 
 [[package]]
@@ -431,6 +432,16 @@ dependencies = [
  "quote",
  "syn",
  "unicode-xid",
+]
+
+[[package]]
+name = "terminal_size"
+version = "0.1.17"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "633c1a546cee861a1a6d0dc69ebeca693bf4296661ba7852b9d21d159e0506df"
+dependencies = [
+ "libc",
+ "winapi",
 ]
 
 [[package]]

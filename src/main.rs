@@ -6,6 +6,7 @@ use exitfailure::ExitFailure;
 use failure::ResultExt;
 use std::io::{self, Read};
 use structopt::StructOpt;
+use terminal_size::{terminal_size, Width};
 
 #[derive(StructOpt)]
 struct Options {
@@ -21,6 +22,9 @@ struct Options {
     #[structopt(short = "i", long = "stdin")]
     ///Read the message from STDIN instead of the argument
     stdin: bool,
+    #[structopt(short = "w", long = "width", default_value = "40")]
+    ///Max length of one row of symbols
+    width: String,
 }
 
 fn main() -> Result<(), ExitFailure> {
@@ -39,7 +43,41 @@ fn main() -> Result<(), ExitFailure> {
 
     let eye = if options.dead { "x" } else { "o" };
 
-    println!("{}", message.purple().underline().on_bright_green());
+    let width_result = options.width.parse::<usize>();
+    let mut width = match width_result {
+        Ok(num) => num,
+        Err(_) => 0,
+    };
+    let size = terminal_size();
+    if let Some((Width(w), _)) = size {
+        if width > w as usize {
+            width = w as usize - 5;
+        }
+    }
+    if width > message.len() {
+        width = message.len();
+    }
+    if width >= 1 {
+        let str_count = (message.len() - 1) / width;
+        println!(" {} ", "-".repeat(width + 2));
+        match str_count {
+            0 => {
+                println!("< {:1$} >", message, width);
+            }
+
+            oth => {
+                println!("/ {} \\", &message[..width]);
+                (1..=oth - 1)
+                    .for_each(|i| println!("| {} |", &message[i * width..(i + 1) * width]));
+                println!("\\ {:1$} /", &message[width * oth..], width);
+            }
+        }
+        println!(" {} ", "-".repeat(width + 2));
+    } else {
+        println!(" --- ");
+        println!("< 0 >");
+        println!(" --- ");
+    }
 
     match &options.catfile {
         Some(path) => {
@@ -49,11 +87,17 @@ fn main() -> Result<(), ExitFailure> {
             println!("{}", &cat_picture);
         }
         None => {
-            println!(" \\");
-            println!("  \\");
-            println!("     /\\_/\\");
-            println!("    ( {eye} {eye} )", eye = eye.red().bold());
-            println!("    =( I )=");
+            let half = width / 2;
+            println!("{:1$} \\", " ", half);
+            println!("{:1$}  \\", " ", half);
+            println!("{:1$}     /\\_/\\", " ", half);
+            println!(
+                "{:1$}    ( {eye} {eye} )",
+                " ",
+                half,
+                eye = eye.red().bold()
+            );
+            println!("{:1$}    =( I )=", " ", half);
         }
     }
     Ok(())

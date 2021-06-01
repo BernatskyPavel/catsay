@@ -1,6 +1,6 @@
 [package]
 name = "catsay-bpv"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Bernatsky Pavel"]
 edition = "2018"
 description = "catsay - tool that makes a cat speak your message"
@@ -16,3 +16,4 @@ failure = "0.1.8"
 exitfailure = "0.5.1"
 assert_cmd = "1.0.4"
 predicates = "1.0.8"
+terminal_size = "0.1.17"
